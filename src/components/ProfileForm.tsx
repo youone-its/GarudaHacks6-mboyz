@@ -48,7 +48,7 @@ export default function ProfileForm({ user }: { user: any }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
+    <form onSubmit={handleSubmit} className="text-black max-w-md mx-auto space-y-4">
       <div>
         <label>Foto Profil</label>
         <div className="flex items-center space-x-4">
@@ -67,7 +67,7 @@ export default function ProfileForm({ user }: { user: any }) {
         <input value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border p-2" required />
       </div>
 
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
+      <button type="submit" className="bg-blue-600 text-black px-4 py-2 rounded">Simpan</button>
     </form>
   )
 }

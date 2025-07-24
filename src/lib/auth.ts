@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret'
 
 export async function getUserFromToken() {
-  const cookieStore = await cookies()
+  const cookieStore = await cookies() // ✅ WAJIB pakai await di Next.js 15 (route handlers)
   const token = cookieStore.get('token')?.value
   if (!token) return null
 

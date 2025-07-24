@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useState, useRef } from 'react'
 import FAQSection from '@/components/FAQSection'
-import Footer from '@/components/footer'
+import Footer from '@/components/Footer'
 import MotionCard from '@/components/MotionCard'
 import SlideSection from '@/components/SlideSection'
 

@@ -3,16 +3,22 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { FaChevronDown, FaUserCircle, FaBars, FaTimes } from 'react-icons/fa'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const navItems = [
-  { label: 'About', href: '/about' },
-  { label: 'Story', href: '/story' },
+  {
+    label: 'Fun Features',
+    hasDropdown: true,
+    dropdownItems: [
+      { label: 'Story', href: '/story' },
+      { label: 'Games', href: '/games' },
+      { label: 'Article', href: '/article' },
+    ],
+  },
   {
     label: 'Education',
     hasDropdown: true,
     dropdownItems: [
-      { label: 'NusaEdu', href: '/education/nusaedu' },
       { label: 'NusaGames', href: '/education/nusagames' },
       { label: 'NusaArticle', href: '/education/nusaarticle' },
     ],
@@ -22,11 +28,19 @@ const navItems = [
     hasDropdown: true,
     dropdownItems: [
       { label: 'NusaMarket', href: '/connect/nusamarket' },
-      { label: 'NusaOutfit', href: '/connect/nusaoutfit' },
       { label: 'NusaExperience', href: '/connect/nusaexperience' },
     ],
   },
-  { label: 'About Us', href: '/about' },
+  {
+    label: 'Intelligence',
+    hasDropdown: true,
+    dropdownItems: [
+      { label: 'NusaChat', href: '/intelligence/nusachat' },
+      { label: 'NusaImage', href: '/intelligence/nusaimage' },
+      { label: 'NusaTranslate', href: '/intelligence/nusatranslate' },
+    ],
+  },
+  { label: 'About', href: '/about' },
 ]
 
 export default function Navbar() {
@@ -34,6 +48,7 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -44,6 +59,18 @@ export default function Navbar() {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (openDropdown && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpenDropdown(null);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openDropdown]);
 
   const toggleDropdown = (label: string) => {
     setOpenDropdown(openDropdown === label ? null : label)
@@ -62,7 +89,7 @@ export default function Navbar() {
           </Link>
 
           {/* Bubble Navbar */}
-          <div className="bg-[#467750] text-white px-3 py-1 md:px-6 md:py-3 rounded-full flex items-center shadow-md text-sm md:text-lg font-semibold relative w-fit md:w-auto ml-auto">
+          <div ref={dropdownRef} className="bg-[#467750] text-white px-3 py-1 md:px-6 md:py-3 rounded-full flex items-center shadow-md text-sm md:text-lg font-semibold relative w-fit md:w-auto ml-auto">
             {/* Mobile: Hamburger + Profile */}
             {isMobile ? (
               <div className="flex items-center gap-4">

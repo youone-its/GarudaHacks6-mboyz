@@ -1,56 +1,38 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { getUserFromToken } from '@/lib/auth'
+import { cookies } from 'next/headers'
+import jwt from 'jsonwebtoken'
+import { prisma } from '@/lib/prisma' // asumsi kamu udah pake singleton
 
-// GET profile + relasi
 export async function GET() {
-  const user = await getUserFromToken()
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
-  const fullUser = await prisma.user.findUnique({
-    where: { id: user.id },
-    include: {
-      game: true,
-      accommodations: true,
-      bookings: true,
-      ratings: true,
-      reviews: true,
-      likes: true
-    }
-  })
-
-  if (!fullUser) {
-    return NextResponse.json({ error: 'User not found' }, { status: 404 })
-  }
-
-  return NextResponse.json(fullUser)
-}
-
-// PATCH untuk update data user
-export async function PATCH(req: Request) {
-  const user = await getUserFromToken()
-  if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
-  const data = await req.json()
-  const { name, image, country } = data
-
   try {
-    const updated = await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        name,
-        image,
-        country
-      }
+    const cookieStore = await cookies()
+    const token = cookieStore.get('token')?.value
+
+    if (!token) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      id: number
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: {
+        id: true,
+        name: true,
+        country: true,
+        role: true,
+      },
     })
 
-    return NextResponse.json(updated)
-  } catch (err) {
-    console.error('Update failed:', err)
-    return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 })
+    if (!user) {
+      return NextResponse.json({ message: 'User tidak ditemukan' }, { status: 404 })
+    }
+
+    return NextResponse.json({ user })
+  } catch (error) {
+    console.error('[PROFILE_GET]', error)
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 })
   }
 }
