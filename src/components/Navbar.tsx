@@ -78,13 +78,15 @@ export default function NavBar() {
               href="/beranda"
               className="h-[39px] w-3xs bg-white rounded-2xl flex items-center justify-center shadow-md"
             >
-              <p className="font-body font-medium text-lg">Beranda</p>
+              <p className="font-body font-medium text-black text-lg">
+                Beranda
+              </p>
             </a>
             <a
               href="/departemen"
               className="h-[39px] w-3xs bg-white rounded-2xl flex items-center justify-center shadow-md"
             >
-              <p className="font-body font-medium text-blacktext-lg">
+              <p className="font-body font-medium text-black text-lg">
                 Departemen
               </p>
             </a>
@@ -97,18 +99,18 @@ export default function NavBar() {
 
             <a
               href="#"
-              className="mx-[25px] w-[256px] h-[39px] pr-6 pl-6 bg-navy-400 rounded-[14px] flex items-center justify-center text-3/4xl mt-26.75"
+              className="mx-[25px] w-[256px] h-[39px] pr-6 pl-6 bg-lime-700 rounded-[14px] flex items-center justify-center text-3/4xl mt-26.75"
             >
-              <p className="font-body text-black font-medium ">Login</p>
+              <p className="font-body text-white font-medium ">Login</p>
             </a>
           </div>
 
           <button
             onClick={toggleMenu}
             aria-label="Close menu"
-            className="mt-9 cursor-pointer"
+            className="mt-9 cursor-pointer "
           >
-            <CircleX size={70} strokeWidth={1} color="#1D4776" />
+            <CircleX size={70} strokeWidth={1} color="#467750" />
           </button>
         </div>
       </div>
