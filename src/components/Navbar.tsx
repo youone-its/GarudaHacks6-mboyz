@@ -14,18 +14,18 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="relative z-20 bg-lt-gray-300  px-8 md:px-16 py-5 ">
+    <nav className="relative z-20 bg-gray-300  px-8 md:px-16 py-5 ">
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-3">
           <Image
-            src="/images/navbar/logo.png"
+            src="/navbar/logo.png"
             alt="Logo Tuas Prakarsa"
             width={50}
             height={49.73}
             className="h-10 w-auto"
           />
-          <p className="font-Loka font-extrabold text-navy-400 text-xl ">
+          <p className="font-Loka font-extrabold text-black text-xl ">
             NusaLoka
           </p>
         </div>
@@ -33,21 +33,21 @@ export default function NavBar() {
           {/* Desktop Buttons */}
           <a
             href="/beranda"
-            className="relative font-Lato font-medium text-navy-400 text-lg after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full"
+            className="relative font-Lato font-medium text-black text-lg after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-lime-700 after:transition-all after:duration-300 hover:after:w-full"
           >
             Home
           </a>
           <a
             href="/departemen"
-            className="relative font-Lato font-medium text-navy-400 text-lg after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full"
+            className="relative font-Lato font-medium text-black text-lg after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-lime-700 after:transition-all after:duration-300 hover:after:w-full"
           >
             NusaMarket
           </a>
           <a
             href="/login"
-            className="px-6 py-1  hover:scale-110 transition-all duration-300 rounded-[14px] flex items-center justify-center text-md border-1 border-lime-700 hover:border-white"
+            className="px-6 py-1 hover:bg-lime-700 hover:scale-110 transition-all duration-300 rounded-[14px] flex items-center justify-center text-md border-1 border-lime-700 hover:border-white"
           >
-            <p className="font-Lato text-lt-gray-300 font-medium ">Login</p>
+            <p className="font-Lato text-black font-medium ">Login</p>
           </a>
         </div>
 
@@ -84,7 +84,7 @@ export default function NavBar() {
               href="/departemen"
               className="h-[39px] w-3xs bg-white rounded-2xl flex items-center justify-center shadow-md"
             >
-              <p className="font-body font-medium text-navy-400 text-lg">
+              <p className="font-body font-medium text-blacktext-lg">
                 Departemen
               </p>
             </a>
@@ -92,16 +92,14 @@ export default function NavBar() {
               href="/blog"
               className="h-[39px] w-3xs bg-white rounded-2xl flex items-center justify-center shadow-md"
             >
-              <p className="font-body font-medium text-navy-400 text-lg">
-                Blog
-              </p>
+              <p className="font-body font-medium text-black text-lg">Blog</p>
             </a>
 
             <a
               href="#"
               className="mx-[25px] w-[256px] h-[39px] pr-6 pl-6 bg-navy-400 rounded-[14px] flex items-center justify-center text-3/4xl mt-26.75"
             >
-              <p className="font-body text-lt-gray-300 font-medium ">Login</p>
+              <p className="font-body text-black font-medium ">Login</p>
             </a>
           </div>
 
