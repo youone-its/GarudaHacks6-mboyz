@@ -1,73 +1,93 @@
 'use client'
 
-import { updateUserProfile } from '@/lib/actions'
 import { useState } from 'react'
-import Image from 'next/image'
+import { addAccommodation } from '@/lib/actions'
 import { useRouter } from 'next/navigation'
 
-export default function ProfileForm({ user }: { user: any }) {
-  const [name, setName] = useState(user.name)
-  const [email, setEmail] = useState(user.email)
-  const [image, setImage] = useState(user.image || '')
-  const [file, setFile] = useState<File | null>(null)
+export default function TambahAkomodasiForm() {
+  const [form, setForm] = useState({
+    name: '',
+    description: '',
+    pricePerNight: '',
+    location: '',
+    availableRooms: '',
+  })
 
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    try {
+      // validasi dasar
+      if (!form.name || !form.pricePerNight || !form.availableRooms) {
+        alert('Harap isi semua field wajib')
+        return
+      }
 
-    let uploadedUrl = image
-
-    if (file) {
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('upload_preset', 'your_upload_preset') // ⬅️ ganti sesuai pengaturan Cloudinary
-
-      const res = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', {
-        method: 'POST',
-        body: formData,
+      await addAccommodation({
+        name: form.name,
+        description: form.description || undefined,
+        pricePerNight: parseInt(form.pricePerNight) || 0,
+        location: form.location || undefined,
+        availableRooms: parseInt(form.availableRooms) || 0,
       })
 
-      const data = await res.json()
-      uploadedUrl = data.secure_url
-    }
-
-    const result = await updateUserProfile({
-      id: user.id,
-      name,
-      email,
-      image: uploadedUrl,
-    })
-
-    if (result.success) {
+      alert('Akomodasi berhasil ditambahkan!')
       router.refresh()
-      alert('Profil berhasil diperbarui!')
-    } else {
-      alert(result.error)
+    } catch (err) {
+      console.error('❌ Gagal menambahkan:', err)
+      alert('Terjadi kesalahan saat menambahkan akomodasi')
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
-      <div>
-        <label>Foto Profil</label>
-        <div className="flex items-center space-x-4">
-          {image && <Image src={image} alt="profile" width={64} height={64} className="rounded-full" />}
-          <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-        </div>
-      </div>
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4 p-4 border rounded bg-white">
+      <input
+        type="text"
+        placeholder="Nama Akomodasi"
+        value={form.name}
+        onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+        className="w-full p-2 border rounded"
+        required
+      />
+      <textarea
+        placeholder="Deskripsi (opsional)"
+        value={form.description}
+        onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+        className="w-full p-2 border rounded"
+      />
+      <input
+        type="number"
+        placeholder="Harga per malam"
+        value={form.pricePerNight}
+        onChange={e => setForm(f => ({ ...f, pricePerNight: e.target.value }))}
+        className="w-full p-2 border rounded"
+        required
+      />
+      <input
+        type="text"
+        placeholder="Lokasi"
+        value={form.location}
+        onChange={e => setForm(f => ({ ...f, location: e.target.value }))}
+        className="w-full p-2 border rounded"
+      />
+      <input
+        type="number"
+        placeholder="Sisa kamar tersedia"
+        value={form.availableRooms}
+        onChange={e => setForm(f => ({ ...f, availableRooms: e.target.value }))}
+        className="w-full p-2 border rounded"
+        required
+      />
 
-      <div>
-        <label>Nama</label>
-        <input value={name} onChange={(e) => setName(e.target.value)} className="w-full border p-2" required />
+      <div className="flex justify-end gap-2">
+        <button type="button" onClick={() => router.back()} className="px-4 py-2 border rounded">
+          Batal
+        </button>
+        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">
+          Simpan
+        </button>
       </div>
-
-      <div>
-        <label>Email</label>
-        <input value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border p-2" required />
-      </div>
-
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
     </form>
   )
 }

@@ -46,7 +46,7 @@ export default function AddAccommodationModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-40 backdrop-blur-sm flex justify-center items-center">
+    <div className="text-black fixed inset-0 z-50 bg-black bg-opacity-40 backdrop-blur-sm flex justify-center items-center">
       <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md relative">
         <h2 className="text-xl font-bold mb-4">Tambah Akomodasi</h2>
         <input
@@ -85,12 +85,12 @@ export default function AddAccommodationModal({
         />
         {message && <p className="text-sm mb-2 text-red-600">{message}</p>}
         <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="text-gray-500 px-4 py-2">
+          <button onClick={onClose} className="text-black px-4 py-2">
             Batal
           </button>
           <button
             onClick={handleSubmit}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-blue-600 text-black px-4 py-2 rounded"
           >
             Simpan
           </button>
