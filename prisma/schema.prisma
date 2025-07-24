@@ -1,0 +1,136 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  email     String   @unique
+  password  String
+  country   String?
+  createdAt DateTime @default(now())
+  image     String? 
+  game      Game?    @relation("UserGame")
+  role       Role    @default(pengunjung)
+
+  accommodations  Accommodation[] @relation("UserAccommodations")
+  bookings        Booking[]
+  ratings         Rating[]
+  reviews         Review[]
+  likes           Like[]
+
+}
+
+model Game {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation("UserGame", fields: [userId], references: [id])
+  userId      Int      @unique
+  localRank   Int
+  globalRank  Int
+  xpPoints    Int
+  level       String
+  createdAt   DateTime @default(now())
+}
+
+model Accommodation {
+  id              Int               @id @default(autoincrement())
+  ownerId         Int
+  name            String
+  description     String?
+  pricePerNight   Decimal           @db.Decimal(10, 2)
+  location        String?
+  remainingRooms  Int               @default(0)
+  createdAt       DateTime          @default(now())
+  // Relasi
+  owner           User              @relation("UserAccommodations", fields: [ownerId], references: [id], onDelete: Cascade)
+  images          AccommodationImage[]
+  facilities      Facility[]
+  bookings        Booking[]
+  ratings         Rating[]
+  reviews         Review[]
+  likes           Like[]
+}
+
+model AccommodationImage {
+  id               Int   @id @default(autoincrement())
+  accommodationId  Int
+  imageUrl         String
+  accommodation    Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+}
+
+model Facility {
+  id               Int   @id @default(autoincrement())
+  accommodationId  Int
+  facilityName     String
+  accommodation    Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+}
+
+model Booking {
+  id               Int   @id @default(autoincrement())
+  userId           Int
+  accommodationId  Int
+  checkInDate      DateTime
+  checkOutDate     DateTime
+  totalPrice       Decimal         @db.Decimal(10, 2)
+  status           BookingStatus   @default(pending)
+  createdAt        DateTime        @default(now())
+  user             User            @relation(fields: [userId], references: [id])
+  accommodation    Accommodation   @relation(fields: [accommodationId], references: [id])
+}
+
+model Rating {
+  id               Int   @id @default(autoincrement())
+  userId           Int
+  accommodationId  Int
+  rating           Int            
+  createdAt        DateTime        @default(now())
+  user             User            @relation(fields: [userId], references: [id])
+  accommodation    Accommodation   @relation(fields: [accommodationId], references: [id])
+
+  @@unique([userId, accommodationId])
+}
+
+model Review {
+  id               Int   @id @default(autoincrement())
+  userId           Int
+  accommodationId  Int
+  textReview       String?
+  imageUrl         String?
+  createdAt        DateTime        @default(now())
+  user             User            @relation(fields: [userId], references: [id])
+  accommodation    Accommodation   @relation(fields: [accommodationId], references: [id])
+}
+
+model Like {
+  id               Int   @id @default(autoincrement())
+  userId           Int
+  accommodationId  Int
+  createdAt        DateTime        @default(now())
+  user             User            @relation(fields: [userId], references: [id])
+  accommodation    Accommodation   @relation(fields: [accommodationId], references: [id])
+
+  @@unique([userId, accommodationId])
+}
+
+enum Role {
+  pengunjung
+  pengusaha
+}
+
+enum BookingStatus {
+  pending
+  confirmed
+  cancelled
+}

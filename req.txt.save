@@ -1,0 +1,10 @@
+npm install clsx
+npm install classnames
+npm install prisma --save-dev
+buat kalo ada table baru:
+- npx prisma generate
+- npx prisma migrate dev --name "commit nya apa"
+npm install bcrypt
+npm install @prisma/client
+npm install bcrypt
+npm install next-auth

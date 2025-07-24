@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #__next {
+  /* biarkan default auto height agar page bisa scroll */
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes typing-line {
+  from {
+    width: 0;
+    opacity: 1;
+  }
+  to {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+.typing-line {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0;
+  animation: typing-line 1.6s steps(40, end) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes type-char {
+  0% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
+.animate-type-char {
+  animation-name: type-char;
+}
+
+@keyframes bounceX {
+  0%, 100% {
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateX(10px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce-x {
+  animation-name: bounceX;
+}
