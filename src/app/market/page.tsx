@@ -1,5 +1,3 @@
-// app/shop/page.tsx
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -14,34 +12,96 @@ import {
   X,
 } from "lucide-react";
 
-// --- MOCK DATA and TYPES (No changes here) ---
 const products = [
   {
     id: 1,
-    name: "Batik Shirt",
     category: "MEN",
-    price: 100000,
-    sizes: "XS - XL",
-    rating: 4,
-    imageUrl: "/placeholder.svg",
+    name: "Batik Parang Kemeja",
+    price: 185000,
+    rating: 4.5,
+    sizes: "S - XXL",
+    isWishlisted: false,
+    imageUrl: "/market/1.png", // local source
   },
   {
     id: 2,
-    name: "Woven Skirt",
     category: "WOMEN",
-    price: 150000,
-    sizes: "S - L",
+    name: "Modern Encim Kebaya",
+    price: 450000,
     rating: 5,
-    imageUrl: "/placeholder.svg",
+    sizes: "S - L",
+    isWishlisted: true,
+    imageUrl: "/market/2.png",
   },
   {
     id: 3,
-    name: "Handmade Necklace",
+    category: "WOMEN",
+    name: "Tenun Ikat Sumba Skirt",
+    price: 320000,
+    rating: 4.5,
+    sizes: "All Size",
+    isWishlisted: false,
+    imageUrl: "/market/3.png",
+  },
+  {
+    id: 4,
     category: "ACCESSORIES",
-    price: 80000,
+    name: "Dayak Beaded Necklace",
+    price: 95000,
+    rating: 4,
     sizes: "One Size",
+    isWishlisted: true,
+    imageUrl: "/market/4.png",
+  },
+  {
+    id: 5,
+    category: "BAGS",
+    name: "Anjat Rattan Bag",
+    price: 210000,
     rating: 5,
-    imageUrl: "/placeholder.svg",
+    sizes: "One Size",
+    isWishlisted: false,
+    imageUrl: "/market/5.png",
+  },
+  {
+    id: 6,
+    category: "DECOR",
+    name: "Cirebon Wooden Mask",
+    price: 275000,
+    rating: 4.5,
+    sizes: "Display",
+    isWishlisted: false,
+    imageUrl: "/market/6.png",
+  },
+  {
+    id: 7,
+    category: "JEWELRY",
+    name: "Celuk Silver Bracelet",
+    price: 550000,
+    rating: 5,
+    sizes: "Adjustable",
+    isWishlisted: true,
+    imageUrl: "/market/7.png",
+  },
+  {
+    id: 8,
+    category: "CRAFTS",
+    name: "Wayang Kulit Arjuna",
+    price: 350000,
+    rating: 5,
+    sizes: "45cm",
+    isWishlisted: false,
+    imageUrl: "/market/8.png",
+  },
+  {
+    id: 9,
+    category: "MEN",
+    name: "Blangkon Solo",
+    price: 85000,
+    rating: 4,
+    sizes: "55-60cm",
+    isWishlisted: false,
+    imageUrl: "/market/9.png",
   },
 ];
 const filterOptions = {
@@ -59,21 +119,36 @@ interface Product {
   sizes: string;
   rating: number;
   imageUrl: string;
+  isWishlisted: boolean;
 }
 
-// --- REUSABLE COMPONENTS (No changes here) ---
 const ProductCard = ({ product }: { product: Product }) => (
-  <div className="border rounded-lg overflow-hidden group transition-shadow hover:shadow-lg">
-    <div className="relative bg-gray-200 aspect-square"></div>
-    <div className="p-4 space-y-2">
+  // --- FIX IS HERE: Added "flex flex-col" ---
+  <div className="border rounded-lg overflow-hidden group transition-shadow hover:shadow-lg flex flex-col">
+    <div className="relative bg-gray-200 aspect-square">
+      {/* --- BEST PRACTICE UPDATE for <Image> --- */}
+      <Image
+        src={product.imageUrl}
+        alt={product.name}
+        fill // Replaces layout="fill"
+        className="object-cover group-hover:scale-105 transition-transform duration-300" // Replaces objectFit="cover"
+      />
+    </div>
+
+    {/* This "flex-grow" helps ensure the footer aligns correctly if cards have different text lengths */}
+    <div className="p-4 space-y-2 flex flex-col flex-grow">
       <div className="flex justify-between items-start">
         <div>
           <p className="text-xs text-black">{product.category}</p>
           <h3 className="font-semibold text-black">{product.name}</h3>
         </div>
         <Heart
-          className="text-black hover:text-red-500 hover:fill-current cursor-pointer"
           size={20}
+          className={`cursor-pointer transition-colors ${
+            product.isWishlisted
+              ? "text-red-500 fill-current" // Filled red if wishlisted
+              : "text-black hover:text-red-500" // Outline otherwise
+          }`}
         />
       </div>
       <div className="flex items-center">
@@ -82,12 +157,15 @@ const ProductCard = ({ product }: { product: Product }) => (
             key={i}
             size={16}
             className={
-              i < product.rating ? "text-yellow-400 fill-current" : "text-black"
+              i < Math.round(product.rating) // Use Math.round for half-stars
+                ? "text-yellow-400 fill-current"
+                : "text-gray-300" // Lighter color for empty stars
             }
           />
         ))}
       </div>
-      <div className="flex justify-between items-center">
+      {/* This "mt-auto" pushes the footer to the bottom of the card */}
+      <div className="flex justify-between items-center mt-auto pt-2">
         <p className="font-bold text-black">
           Rp{product.price.toLocaleString("id-ID")}
         </p>
@@ -168,7 +246,6 @@ const MobileFilterPanel = ({
   </div>
 );
 
-// --- MAIN PAGE ---
 const ShopPage: NextPage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
@@ -205,7 +282,6 @@ const ShopPage: NextPage = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
-          {/* === UPDATED: Desktop Sidebar with Apply Button === */}
           <aside className="hidden lg:block">
             <h2 className="text-sm font-bold text-black mb-4 flex items-center gap-2">
               <SlidersHorizontal size={20} color="#467750" />
@@ -223,9 +299,7 @@ const ShopPage: NextPage = () => {
           </aside>
 
           <div className="lg:col-span-3">
-            {/* === UPDATED: Search Bar and Sort Section === */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-              {/* Search Form with Button */}
               <form className="w-full sm:w-2/3 flex">
                 <input
                   type="text"

@@ -43,6 +43,12 @@ export default function NavBar() {
           >
             NusaMarket
           </a>
+          <a
+            href="/xperience"
+            className={`relative ${lato.className} font-medium text-black text-lg after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-lime-700 after:transition-all after:duration-300 hover:after:w-full`}
+          >
+            NusaExperience
+          </a>
 
           <a
             href="/login"
@@ -54,7 +60,7 @@ export default function NavBar() {
 
         <div className="md:hidden flex items-center">
           <button onClick={toggleMenu} aria-label="Open menu">
-            <Menu color="#1D4776" size={28} />
+            <Menu color="#467750" size={28} />
           </button>
         </div>
       </div>
