@@ -14,7 +14,7 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="relative z-20 bg-gray-300  px-8 md:px-16 py-5 ">
+    <nav className="relative z-20 bg-white  px-8 md:px-16 py-5 ">
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-3">
