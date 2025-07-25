@@ -25,29 +25,30 @@ export default function NavBar() {
             height={49.73}
             className="h-10 w-auto"
           />
-          <p className="font-Loka font-extrabold text-black text-xl ">
+          <p className={`${lora.className} font-extrabold text-black text-2xl`}>
             NusaLoka
           </p>
         </div>
         <div className="hidden md:flex items-center gap-12.5">
           {/* Desktop Buttons */}
           <a
-            href="/beranda"
-            className="relative font-Lato font-medium text-black text-lg after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-lime-700 after:transition-all after:duration-300 hover:after:w-full"
+            href="/home"
+            className={`relative ${lato.className} font-medium text-black text-lg after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-lime-700 after:transition-all after:duration-300 hover:after:w-full`}
           >
             Home
           </a>
           <a
-            href="/departemen"
-            className="relative font-Lato font-medium text-black text-lg after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-lime-700 after:transition-all after:duration-300 hover:after:w-full"
+            href="/market"
+            className={`relative ${lato.className} font-medium text-black text-lg after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-lime-700 after:transition-all after:duration-300 hover:after:w-full`}
           >
             NusaMarket
           </a>
+
           <a
             href="/login"
-            className="px-6 py-1 hover:bg-lime-700 hover:scale-110 transition-all duration-300 rounded-[14px] flex items-center justify-center text-md border-1 border-lime-700 hover:border-white"
+            className={`px-6 py-1 hover:bg-lime-700 hover:scale-110 transition-all duration-300 rounded-[14px] flex items-center justify-center text-md border-1 border-lime-700 hover:border-white ${lato.className}`}
           >
-            <p className="font-Lato text-black font-medium ">Login</p>
+            <p className="text-black font-medium ">Login</p>
           </a>
         </div>
 
