@@ -44,11 +44,16 @@ model Game {
   createdAt   DateTime @default(now())
 }
 
+
 model Accommodation {
   id              Int               @id @default(autoincrement())
   ownerId         Int
   name            String
   description     String?
+  overview        String?            // ⬅️ baru
+  address         String?             // ⬅️ baru
+  profileImage    String?            // ⬅️ baru
+  amenities       Json?               // ⬅️ baru (array: [wifi, room service])
   pricePerNight   Decimal           @db.Decimal(10, 2)
   location        String?
   remainingRooms  Int               @default(0)

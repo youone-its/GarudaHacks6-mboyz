@@ -3,10 +3,10 @@
 
 import { getServerSession } from 'next-auth'
 import { getUserFromToken } from './auth'
-import { prisma } from '@/lib/prisma' // atau wherever kamu define Prisma
+import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
-// lib/actions.ts
+// Update user profile (jika dipakai)
 export async function updateUserProfile(data: {
   id: number
   name: string
@@ -22,13 +22,16 @@ export async function updateUserProfile(data: {
   return res.json()
 }
 
-
+// Tambah akomodasi (akomodasi baru)
 export async function addAccommodation(form: {
   name: string
   description?: string
   pricePerNight: number
   location?: string
   availableRooms: number
+  address?: string
+  profileImage?: string
+  amenities?: string[] // sesuaikan dengan tipe field `amenities` di schema.prisma
 }) {
   const user = await getUserFromToken()
   if (!user) throw new Error('Unauthorized')
@@ -40,6 +43,9 @@ export async function addAccommodation(form: {
       pricePerNight: form.pricePerNight,
       location: form.location,
       remainingRooms: form.availableRooms,
+      address: form.address,
+      profileImage: form.profileImage,
+      amenities: form.amenities ?? [], // default empty array jika undefined
       owner: {
         connect: { id: user.id },
       },
