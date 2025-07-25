@@ -82,30 +82,30 @@ export default function NavBar() {
           {/* Mobile Buttons */}
           <div className="flex flex-col items-center text center gap-7.5 mt-9.75 ">
             <a
-              href="/beranda"
+              href="/home"
+              className="h-[39px] w-3xs bg-white rounded-2xl flex items-center justify-center shadow-md"
+            >
+              <p className="font-body font-medium text-black text-lg">Home</p>
+            </a>
+            <a
+              href="/market"
               className="h-[39px] w-3xs bg-white rounded-2xl flex items-center justify-center shadow-md"
             >
               <p className="font-body font-medium text-black text-lg">
-                Beranda
+                NusaMarket
               </p>
             </a>
             <a
-              href="/departemen"
+              href="/xperience"
               className="h-[39px] w-3xs bg-white rounded-2xl flex items-center justify-center shadow-md"
             >
               <p className="font-body font-medium text-black text-lg">
-                Departemen
+                NusaExperience
               </p>
-            </a>
-            <a
-              href="/blog"
-              className="h-[39px] w-3xs bg-white rounded-2xl flex items-center justify-center shadow-md"
-            >
-              <p className="font-body font-medium text-black text-lg">Blog</p>
             </a>
 
             <a
-              href="#"
+              href="/login"
               className="mx-[25px] w-[256px] h-[39px] pr-6 pl-6 bg-lime-700 rounded-[14px] flex items-center justify-center text-3/4xl mt-26.75"
             >
               <p className="font-body text-white font-medium ">Login</p>
